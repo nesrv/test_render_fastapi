@@ -1,6 +1,4 @@
 from fastapi import FastAPI, File, UploadFile
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
 from langchain_gigachat.chat_models import GigaChat
 
 app = FastAPI()
@@ -11,11 +9,9 @@ model = GigaChat(
     credentials="=="
 )
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
 @app.get("/")
 def home():
-    return FileResponse("static/index.html")
+    return {"message": "Text Recognition API"}
 
 @app.post("/recognize")
 async def recognize_text(file: UploadFile = File(...)):
