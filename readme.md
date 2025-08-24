@@ -75,3 +75,8 @@ uvicorn main:app --host 0.0.0.0 --port $PORT
 🚀 Просто укажите `uvicorn` в `startCommand` и добавьте `requirements.txt`.  
 🔧 Если есть ошибки — проверьте логи в Render Dashboard.  
 
+
+локальный запуск
+```shell
+uvicorn main:app --host 127.0.0.1 --port 8000 --reload
+```
