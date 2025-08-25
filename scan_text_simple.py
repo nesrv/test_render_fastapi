@@ -37,15 +37,23 @@ async def upload_image(file: UploadFile = File(...)):
 
     response = model.invoke([message])
     
-    result = {"text": response.content}
+    try:
+        parsed_data = json.loads(response.content)
+        result = parsed_data
+    except:
+        result = {"text": response.content}
     
     if os.path.exists("ai_response.json"):
         with open("ai_response.json", "r", encoding="utf-8") as f:
             data = json.load(f)
         if isinstance(data, list):
+            data = [item for item in data if "text" not in item]
             data.append(result)
         else:
-            data = [data, result]
+            if "text" not in data:
+                data = [data, result]
+            else:
+                data = result
     else:
         data = result
     
@@ -67,6 +75,10 @@ def get_names():
     with open("ai_response.json", "r", encoding="utf-8") as f:
         data = json.load(f)
     return [item["name"] for item in data]
+
+
+# CRUD самостоятельно
+
 
 
 if __name__ == "__main__":    
